@@ -49,9 +49,7 @@ $state = array(
   'issue_report_channels' => array('twitter','issue_mail'),
   'sensors' => array(
     'temperature'         => array(),
-    'people_now_present'  => array(
-      'value' => Null
-      )
+    'people_now_present'  => array()
     )
   );
 
@@ -90,8 +88,9 @@ $state['sensors']['people_now_present']['value'] = $peoplecount;
 if ($peoplecount > 0) {
   $sql="select name from people_list;";
   $r=mysql_query($sql);
+  $people_list = array();
   while ($row = mysql_fetch_assoc($r)) {
-    $people_list['names'][] = $row['name'];
+    $people_list[] = $row['name'];
   }
   $state['sensors']['people_now_present']['names'][] = array($people_list);
 }
