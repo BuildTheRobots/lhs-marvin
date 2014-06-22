@@ -9,9 +9,9 @@ function open_public()
     return True;
   }
   $sql = 'SELECT *' .
-	' FROM open_days' .
-	' WHERE (start <= now()) AND (end > now())' .
-	' LIMIT 1;';
+  ' FROM open_days' .
+  ' WHERE (start <= now()) AND (end > now())' .
+  ' LIMIT 1;';
   $r=mysql_query($sql);
   $row = mysql_fetch_assoc($r);
   if ($row) {
@@ -47,7 +47,12 @@ $state = array(
     'irc' => 'irc://freenode.net/#leeds-hack-space'
     ),
   'issue_report_channels' => array('twitter','issue_mail'),
-  'sensors' => array()
+  'sensors' => array(
+    'temperature'         => array(),
+    'people_now_present'  => array(
+      'value' => Null
+      )
+    )
   );
 
 $sql="select * from prefs where ref='space-state';";
@@ -79,19 +84,19 @@ $state['sensors']['temperature'] = array($temp);
 $sql="select total from people_count;";
 $r=mysql_query($sql);
 $row = mysql_fetch_assoc($r);
-$people_now_present = array(
-  'value' =>  $row['total'],
-  );
+$peoplecount = $row['total'];
+$state['sensors']['people_now_present']['value'] = $peoplecount;
 
-$sql="select name from people_list;";
-$r=mysql_query($sql);
-while ($row = mysql_fetch_assoc($r)) {
-   $people_now_present['names'][] = $row['name'];
+if ($peoplecount > 0) {
+  $sql="select name from people_list;";
+  $r=mysql_query($sql);
+  while ($row = mysql_fetch_assoc($r)) {
+    $people_list['names'][] = $row['name'];
+  }
+  $state['sensors']['people_now_present']['names'][] = array($people_list);
 }
-$state['sensors']['people_now_present'] = array($people_now_present);
 
 header('Content-type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Cache-Control: no-cache');
-
 echo json_encode($state);
