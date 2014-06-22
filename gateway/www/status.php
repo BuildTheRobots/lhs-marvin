@@ -76,6 +76,19 @@ $temp = array(
   );
 $state['sensors']['temperature'] = array($temp);
 
+$sql="select total from people_count;";
+$r=mysql_query($sql);
+$row = mysql_fetch_assoc($r);
+$people_now_present = array(
+  'value' =>  $row['total'],
+  );
+
+$sql="select name from people_list;";
+$r=mysql_query($sql);
+while ($row = mysql_fetch_assoc($r)) {
+   $people_now_present['names'][] = $row['name'];
+}
+$state['people_now_present'] = array($people_now_present);
 
 header('Content-type: application/json');
 header('Access-Control-Allow-Origin: *');
