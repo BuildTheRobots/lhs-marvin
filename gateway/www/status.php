@@ -88,7 +88,7 @@ $r=mysql_query($sql);
 while ($row = mysql_fetch_assoc($r)) {
    $people_now_present['names'][] = $row['name'];
 }
-$state['people_now_present'] = array($people_now_present);
+$state['sensors']['people_now_present'] = array($people_now_present);
 
 header('Content-type: application/json');
 header('Access-Control-Allow-Origin: *');
