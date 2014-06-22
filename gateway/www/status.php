@@ -77,7 +77,7 @@ $temp = array(
   'unit' => '°C',
   'location' => 'Inside'
   );
-$state['sensors']['temperature'] = $temp;
+$state['sensors']['temperature'] = array($temp);
 
 $sql="select total from people_count;";
 $r=mysql_query($sql);
