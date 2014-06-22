@@ -92,7 +92,7 @@ if ($peoplecount > 0) {
   while ($row = mysql_fetch_assoc($r)) {
     $people_list[] = $row['name'];
   }
-  $state['sensors']['people_now_present']['names'][] = array($people_list);
+  $state['sensors']['people_now_present']['names'] = $people_list;
 }
 
 header('Content-type: application/json');
