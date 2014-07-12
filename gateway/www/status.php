@@ -9,9 +9,9 @@ function open_public()
     return True;
   }
   $sql = 'SELECT *' .
-  ' FROM open_days' .
-  ' WHERE (start <= now()) AND (end > now())' .
-  ' LIMIT 1;';
+	' FROM open_days' .
+	' WHERE (start <= now()) AND (end > now())' .
+	' LIMIT 1;';
   $r=mysql_query($sql);
   $row = mysql_fetch_assoc($r);
   if ($row) {
@@ -98,4 +98,5 @@ if ($peoplecount > 0) {
 header('Content-type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Cache-Control: no-cache');
+
 echo json_encode($state);
